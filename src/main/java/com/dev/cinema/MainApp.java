@@ -12,6 +12,6 @@ public class MainApp {
         Movie movie = new Movie();
         movie.setTitle("Star Wars");
         System.out.println(movieService.add(movie));
-        System.out.println(movieService.getAll());
+        movieService.getAll().forEach(System.out::println);
     }
 }
