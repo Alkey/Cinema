@@ -1,5 +1,6 @@
 package com.dev.cinema;
 
+import com.dev.cinema.exception.AuthenticationException;
 import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
@@ -61,7 +62,15 @@ public class MainApp {
         User bob = new User();
         bob.setEmail("Bob@gmail.com");
         bob.setPassword("123");
-        System.out.println(authenticationService.register(bob.getEmail(), bob.getPassword()));
-        System.out.println(authenticationService.login(bob.getEmail(), bob.getPassword()));
+        try {
+            System.out.println(authenticationService.register(bob.getEmail(), bob.getPassword()));
+        } catch (AuthenticationException e) {
+            System.out.println(e);
+        }
+        try {
+            System.out.println(authenticationService.login(bob.getEmail(), bob.getPassword()));
+        } catch (AuthenticationException e) {
+            System.out.println(e);
+        }
     }
 }

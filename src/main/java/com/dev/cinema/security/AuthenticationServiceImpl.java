@@ -6,6 +6,7 @@ import com.dev.cinema.lib.Service;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.HashUtil;
+import java.util.Optional;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -14,10 +15,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
-        User user = userService.findByEmail(email);
-        if (user == null) {
+        Optional<User> userFromDb = userService.findByEmail(email);
+        if (userFromDb.isEmpty()) {
             throw new AuthenticationException("Incorrect email " + email);
         }
+        User user = userFromDb.get();
         if (isValid(user.getPassword(), password, user.getSalt())) {
             return user;
         }
@@ -25,12 +27,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public User register(String email, String password) {
-        User user = userService.findByEmail(email);
-        if (user != null) {
+    public User register(String email, String password) throws AuthenticationException {
+        Optional<User> userFromDb = userService.findByEmail(email);
+        if (userFromDb.isPresent()) {
             throw new AuthenticationException("This email " + email + " is already used");
         }
-        user = new User();
+        User user = new User();
         user.setEmail(email);
         user.setPassword(password);
         return userService.add(user);

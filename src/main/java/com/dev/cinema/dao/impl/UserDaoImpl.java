@@ -5,6 +5,7 @@ import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.User;
 import com.dev.cinema.util.HibernateUtil;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -26,16 +27,20 @@ public class UserDaoImpl implements UserDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Can't add user " + user + " to DB", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<User> userQuery =
                     session.createQuery("from User where email = :email", User.class);
             userQuery.setParameter("email", email);
-            return userQuery.uniqueResult();
+            return userQuery.uniqueResultOptional();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get user by email " + email, e);
         }
