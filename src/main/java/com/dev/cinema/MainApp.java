@@ -4,9 +4,12 @@ import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
+import com.dev.cinema.model.User;
+import com.dev.cinema.security.AuthenticationService;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
+import com.dev.cinema.service.UserService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -19,6 +22,11 @@ public class MainApp {
     private static MovieSessionService sessionService =
             (MovieSessionService) Injector.getInstance("com.dev.cinema")
                     .getInstance(MovieSessionService.class);
+    private static UserService userService = (UserService) Injector.getInstance("com.dev.cinema")
+            .getInstance(UserService.class);
+    private static AuthenticationService authenticationService =
+            (AuthenticationService) Injector.getInstance("com.dev.cinema")
+            .getInstance(AuthenticationService.class);
 
     public static void main(String[] args) {
         Movie starWars = new Movie();
@@ -50,5 +58,10 @@ public class MainApp {
         System.out.println(sessionService.add(sessionSecond));
         System.out.println(sessionService.findAvailableSessions(starWars.getId(),
                 LocalDate.of(2020, 10, 6)));
+        User bob = new User();
+        bob.setEmail("Bob@gmail.com");
+        bob.setPassword("123");
+        System.out.println(authenticationService.register(bob.getEmail(), bob.getPassword()));
+        System.out.println(authenticationService.login(bob.getEmail(), bob.getPassword()));
     }
 }
