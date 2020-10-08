@@ -16,22 +16,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public User login(String email, String password) throws AuthenticationException {
         Optional<User> userFromDb = userService.findByEmail(email);
-        if (userFromDb.isEmpty()) {
-            throw new AuthenticationException("Incorrect email " + email);
+        if (userFromDb.isPresent()
+                && isValid(userFromDb.get().getPassword(), password, userFromDb.get().getSalt())) {
+            return userFromDb.get();
         }
-        User user = userFromDb.get();
-        if (isValid(user.getPassword(), password, user.getSalt())) {
-            return user;
-        }
-        throw new AuthenticationException("Incorrect password");
+        throw new AuthenticationException("Incorrect email: " + email + " or password");
     }
 
     @Override
     public User register(String email, String password) throws AuthenticationException {
-        Optional<User> userFromDb = userService.findByEmail(email);
-        if (userFromDb.isPresent()) {
-            throw new AuthenticationException("This email " + email + " is already used");
-        }
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
