@@ -5,16 +5,21 @@ import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
+import com.dev.cinema.model.Order;
 import com.dev.cinema.model.ShoppingCart;
+import com.dev.cinema.model.Ticket;
 import com.dev.cinema.model.User;
 import com.dev.cinema.security.AuthenticationService;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
+import com.dev.cinema.service.OrderService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainApp {
     private static final Injector INJECTOR = Injector.getInstance("com.dev.cinema");
@@ -30,6 +35,8 @@ public class MainApp {
             (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
     private static ShoppingCartService shoppingCartService =
             (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
+    private static OrderService orderService =
+            (OrderService) INJECTOR.getInstance(OrderService.class);
 
     public static void main(String[] args) {
         Movie starWars = new Movie();
@@ -77,7 +84,8 @@ public class MainApp {
         User user = userService.findByEmail(bob.getEmail()).get();
         shoppingCartService.addSession(sessionFirst, user);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
-        shoppingCartService.clear(shoppingCart);
-        System.out.println(shoppingCart);
+        List<Ticket> tickets = new ArrayList<>(shoppingCart.getTickets());
+        Order order = orderService.completeOrder(tickets, user);
+        System.out.println(orderService.getOrderHistory(user));
     }
 }
