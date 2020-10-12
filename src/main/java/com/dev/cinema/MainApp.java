@@ -17,22 +17,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class MainApp {
+    private static final Injector INJECTOR = Injector.getInstance("com.dev.cinema");
     private static MovieService movieService =
-            (MovieService) Injector.getInstance("com.dev.cinema").getInstance(MovieService.class);
+            (MovieService) INJECTOR.getInstance(MovieService.class);
     private static CinemaHallService hallService =
-            (CinemaHallService) Injector.getInstance("com.dev.cinema")
-                    .getInstance(CinemaHallService.class);
+            (CinemaHallService) INJECTOR.getInstance(CinemaHallService.class);
     private static MovieSessionService sessionService =
-            (MovieSessionService) Injector.getInstance("com.dev.cinema")
-                    .getInstance(MovieSessionService.class);
-    private static UserService userService = (UserService) Injector.getInstance("com.dev.cinema")
-            .getInstance(UserService.class);
+            (MovieSessionService) INJECTOR.getInstance(MovieSessionService.class);
+    private static UserService userService = (UserService)
+            INJECTOR.getInstance(UserService.class);
     private static AuthenticationService authenticationService =
-            (AuthenticationService) Injector.getInstance("com.dev.cinema")
-                    .getInstance(AuthenticationService.class);
+            (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
     private static ShoppingCartService shoppingCartService =
-            (ShoppingCartService) Injector.getInstance("com.dev.cinema")
-                    .getInstance(ShoppingCartService.class);
+            (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
 
     public static void main(String[] args) {
         Movie starWars = new Movie();
@@ -79,7 +76,6 @@ public class MainApp {
         }
         User user = userService.findByEmail(bob.getEmail()).get();
         shoppingCartService.addSession(sessionFirst, user);
-        System.out.println(shoppingCartService.getByUser(user));
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
         shoppingCartService.clear(shoppingCart);
         System.out.println(shoppingCart);
