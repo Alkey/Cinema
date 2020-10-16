@@ -52,22 +52,22 @@ public class MainApp {
         CinemaHall red = new CinemaHall();
         red.setCapacity(100);
         red.setDescription("RED");
-        logger.info(hallService.add(red));
+        hallService.add(red);
         CinemaHall green = new CinemaHall();
         green.setCapacity(200);
         green.setDescription("GREEN");
-        logger.info(hallService.add(green));
+        hallService.add(green);
         hallService.getAll().forEach(logger::info);
         MovieSession sessionFirst = new MovieSession();
         sessionFirst.setCinemaHall(red);
         sessionFirst.setMovie(starWars);
         sessionFirst.setShowTime(LocalDateTime.of(2020, 10, 6, 15, 50));
-        logger.info(sessionService.add(sessionFirst));
+        sessionService.add(sessionFirst);
         MovieSession sessionSecond = new MovieSession();
         sessionSecond.setCinemaHall(green);
         sessionSecond.setMovie(starWars);
         sessionSecond.setShowTime(LocalDateTime.of(2020, 10, 7, 23, 50));
-        logger.info(sessionService.add(sessionSecond));
+        sessionService.add(sessionSecond);
         sessionService.findAvailableSessions(starWars.getId(),
                 LocalDate.of(2020, 10, 6)).forEach(logger::info);
         User bob = new User();

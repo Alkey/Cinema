@@ -9,12 +9,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
 public class MovieSessionDaoImpl implements MovieSessionDao {
+    private static final Logger logger = Logger.getLogger(MovieSessionDaoImpl.class);
+
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         LocalDateTime beginTime = date.atStartOfDay();
@@ -42,6 +45,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             transaction = session.beginTransaction();
             session.save(movieSession);
             transaction.commit();
+            logger.info("Movie session was added to DB " + movieSession);
             return movieSession;
         } catch (Exception e) {
             if (transaction != null) {
