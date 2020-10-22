@@ -1,7 +1,7 @@
 package com.dev.cinema;
 
+import com.dev.cinema.config.AppConfig;
 import com.dev.cinema.exception.AuthenticationException;
-import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
@@ -21,26 +21,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class MainApp {
-    private static final Injector INJECTOR = Injector.getInstance("com.dev.cinema");
-    private static Logger logger = Logger.getLogger(MainApp.class);
-    private static MovieService movieService =
-            (MovieService) INJECTOR.getInstance(MovieService.class);
-    private static CinemaHallService hallService =
-            (CinemaHallService) INJECTOR.getInstance(CinemaHallService.class);
-    private static MovieSessionService sessionService =
-            (MovieSessionService) INJECTOR.getInstance(MovieSessionService.class);
-    private static UserService userService = (UserService)
-            INJECTOR.getInstance(UserService.class);
-    private static AuthenticationService authenticationService =
-            (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
-    private static ShoppingCartService shoppingCartService =
-            (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
-    private static OrderService orderService =
-            (OrderService) INJECTOR.getInstance(OrderService.class);
+    private static final Logger logger = Logger.getLogger(MainApp.class);
 
     public static void main(String[] args) {
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(AppConfig.class);
+        MovieService movieService = context.getBean(MovieService.class);
         Movie starWars = new Movie();
         starWars.setTitle("Star Wars");
         starWars.setDescription("IMAX");
@@ -49,6 +38,7 @@ public class MainApp {
         starTrack.setTitle("Star Track");
         starTrack.setDescription("3D");
         movieService.add(starTrack);
+        CinemaHallService hallService = context.getBean(CinemaHallService.class);
         CinemaHall red = new CinemaHall();
         red.setCapacity(100);
         red.setDescription("RED");
@@ -62,6 +52,8 @@ public class MainApp {
         sessionFirst.setCinemaHall(red);
         sessionFirst.setMovie(starWars);
         sessionFirst.setShowTime(LocalDateTime.of(2020, 10, 6, 15, 50));
+        MovieSessionService sessionService =
+                context.getBean(MovieSessionService.class);
         sessionService.add(sessionFirst);
         MovieSession sessionSecond = new MovieSession();
         sessionSecond.setCinemaHall(green);
@@ -73,6 +65,8 @@ public class MainApp {
         User bob = new User();
         bob.setEmail("Bob@gmail.com");
         bob.setPassword("123");
+        AuthenticationService authenticationService =
+                context.getBean(AuthenticationService.class);
         try {
             logger.info(authenticationService.register(bob.getEmail(), bob.getPassword()));
         } catch (AuthenticationException e) {
@@ -83,10 +77,13 @@ public class MainApp {
         } catch (AuthenticationException e) {
             logger.error(e);
         }
+        UserService userService = context.getBean(UserService.class);
         User user = userService.findByEmail(bob.getEmail()).get();
+        ShoppingCartService shoppingCartService = context.getBean(ShoppingCartService.class);
         shoppingCartService.addSession(sessionFirst, user);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
         List<Ticket> tickets = new ArrayList<>(shoppingCart.getTickets());
+        OrderService orderService = context.getBean(OrderService.class);
         Order order = orderService.completeOrder(tickets, user);
         orderService.getOrderHistory(user).forEach(logger::info);
     }
