@@ -67,11 +67,7 @@ public class MainApp {
         bob.setPassword("123");
         AuthenticationService authenticationService =
                 context.getBean(AuthenticationService.class);
-        try {
-            logger.info(authenticationService.register(bob.getEmail(), bob.getPassword()));
-        } catch (AuthenticationException e) {
-            logger.error(e);
-        }
+        logger.info(authenticationService.register(bob.getEmail(), bob.getPassword()));
         try {
             logger.info(authenticationService.login(bob.getEmail(), bob.getPassword()));
         } catch (AuthenticationException e) {

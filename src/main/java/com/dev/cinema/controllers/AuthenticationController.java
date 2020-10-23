@@ -1,6 +1,5 @@
 package com.dev.cinema.controllers;
 
-import com.dev.cinema.exception.AuthenticationException;
 import com.dev.cinema.model.dto.UserRequestDto;
 import com.dev.cinema.security.AuthenticationService;
 import org.apache.log4j.Logger;
@@ -21,10 +20,6 @@ public class AuthenticationController {
 
     @PostMapping("/registration")
     public void registration(@RequestBody UserRequestDto dto) {
-        try {
-            service.register(dto.getEmail(), dto.getPassword());
-        } catch (AuthenticationException e) {
-            logger.error("Can't register user " + dto, e);
-        }
+        service.register(dto.getEmail(), dto.getPassword());
     }
 }
