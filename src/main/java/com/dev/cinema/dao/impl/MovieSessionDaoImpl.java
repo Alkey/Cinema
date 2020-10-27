@@ -32,7 +32,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
         try (Session session = sessionFactory.openSession()) {
             Query<MovieSession> movieSessionQuery =
                     session.createQuery("from MovieSession where movie.id = :movieId "
-                    + "and showTime between :beginTime and :endTime", MovieSession.class);
+                            + "and showTime between :beginTime and :endTime", MovieSession.class);
             movieSessionQuery.setParameter("movieId", movieId);
             movieSessionQuery.setParameter("beginTime", beginTime);
             movieSessionQuery.setParameter("endTime", endTime);
@@ -64,6 +64,13 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public MovieSession getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(MovieSession.class, id);
         }
     }
 }
