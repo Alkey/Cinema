@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController extends CustomGlobalExceptionHandler {
     private final UserService service;
     private final UserMapper mapper;
 

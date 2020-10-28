@@ -1,14 +1,15 @@
 package com.dev.cinema.controllers;
 
-import com.dev.cinema.model.dto.UserRequestDto;
+import com.dev.cinema.model.dto.UserRegistrationDto;
 import com.dev.cinema.security.AuthenticationService;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AuthenticationController {
+public class AuthenticationController extends CustomGlobalExceptionHandler {
     private final AuthenticationService service;
 
     @Autowired
@@ -17,7 +18,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/registration")
-    public void registration(@RequestBody UserRequestDto dto) {
+    public void registration(@RequestBody @Valid UserRegistrationDto dto) {
         service.register(dto.getEmail(), dto.getPassword());
     }
 }
