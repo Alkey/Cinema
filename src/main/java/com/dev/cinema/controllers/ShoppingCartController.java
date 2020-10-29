@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/shopping-carts")
-public class ShoppingCartController extends CustomGlobalExceptionHandler {
+public class ShoppingCartController {
     private final ShoppingCartService cartService;
     private final UserService userService;
     private final MovieSessionService movieSessionService;

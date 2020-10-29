@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AuthenticationController extends CustomGlobalExceptionHandler {
+public class AuthenticationController {
     private final AuthenticationService service;
 
     @Autowired

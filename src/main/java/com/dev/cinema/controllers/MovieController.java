@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/movies")
-public class MovieController extends CustomGlobalExceptionHandler {
+public class MovieController {
     private final MovieService service;
     private final MovieMapper mapper;
 

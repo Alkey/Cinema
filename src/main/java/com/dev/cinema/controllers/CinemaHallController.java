@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cinema-halls")
-public class CinemaHallController extends CustomGlobalExceptionHandler {
+public class CinemaHallController {
     private final CinemaHallService service;
     private final CinemaHallMapper mapper;
 

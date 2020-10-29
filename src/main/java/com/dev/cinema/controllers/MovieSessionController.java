@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class MovieSessionController extends CustomGlobalExceptionHandler {
+public class MovieSessionController {
     private final MovieSessionService service;
     private final MovieSessionMapper mapper;
 
