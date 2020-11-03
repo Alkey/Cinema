@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class RoleDaoImpl implements RoleDao {
-    private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
+    private static final Logger logger = Logger.getLogger(RoleDaoImpl.class);
     private final SessionFactory sessionFactory;
 
     @Override
@@ -32,7 +32,7 @@ public class RoleDaoImpl implements RoleDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add role", e);
+            throw new DataProcessingException("Can't add " + role, e);
         } finally {
             if (session != null) {
                 session.close();

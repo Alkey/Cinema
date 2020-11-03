@@ -46,7 +46,7 @@ public class UserDaoImpl implements UserDao {
         try (Session session = sessionFactory.openSession()) {
             Query<User> userQuery =
                     session.createQuery("from User us "
-                            + "left join fetch us.roles "
+                            + "join fetch us.roles "
                             + "where us.email = :email", User.class);
             userQuery.setParameter("email", email);
             return userQuery.uniqueResultOptional();
