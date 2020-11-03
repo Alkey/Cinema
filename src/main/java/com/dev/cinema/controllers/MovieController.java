@@ -7,7 +7,7 @@ import com.dev.cinema.service.MovieService;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,15 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/movies")
+@RequiredArgsConstructor
 public class MovieController {
     private final MovieService service;
     private final MovieMapper mapper;
-
-    @Autowired
-    public MovieController(MovieService service, MovieMapper mapper) {
-        this.service = service;
-        this.mapper = mapper;
-    }
 
     @PostMapping
     public void addMovie(@RequestBody @Valid MovieRequestDto dto) {

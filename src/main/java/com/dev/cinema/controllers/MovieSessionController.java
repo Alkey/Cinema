@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,15 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class MovieSessionController {
     private final MovieSessionService service;
     private final MovieSessionMapper mapper;
-
-    public MovieSessionController(MovieSessionService service,
-                                  MovieSessionMapper mapper) {
-        this.service = service;
-        this.mapper = mapper;
-    }
 
     @GetMapping("/movie-sessions/available")
     public List<MovieSessionResponseDto> getAvailable(

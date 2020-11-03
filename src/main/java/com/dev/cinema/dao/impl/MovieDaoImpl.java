@@ -4,23 +4,19 @@ import com.dev.cinema.dao.MovieDao;
 import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.model.Movie;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class MovieDaoImpl implements MovieDao {
     private static final Logger logger = Logger.getLogger(MovieDaoImpl.class);
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public MovieDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public Movie add(Movie movie) {

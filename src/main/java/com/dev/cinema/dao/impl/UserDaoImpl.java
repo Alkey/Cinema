@@ -4,23 +4,19 @@ import com.dev.cinema.dao.UserDao;
 import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.model.User;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class UserDaoImpl implements UserDao {
     private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public UserDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public User add(User user) {
@@ -49,7 +45,9 @@ public class UserDaoImpl implements UserDao {
     public Optional<User> findByEmail(String email) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> userQuery =
-                    session.createQuery("from User where email = :email", User.class);
+                    session.createQuery("from User us "
+                            + "left join fetch us.roles "
+                            + "where us.email = :email", User.class);
             userQuery.setParameter("email", email);
             return userQuery.uniqueResultOptional();
         } catch (Exception e) {

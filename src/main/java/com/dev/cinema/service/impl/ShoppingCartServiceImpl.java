@@ -7,19 +7,14 @@ import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.Ticket;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.ShoppingCartService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartDao shoppingCartDao;
     private final TicketDao ticketDao;
-
-    @Autowired
-    public ShoppingCartServiceImpl(ShoppingCartDao shoppingCartDao, TicketDao ticketDao) {
-        this.shoppingCartDao = shoppingCartDao;
-        this.ticketDao = ticketDao;
-    }
 
     @Override
     public void addSession(MovieSession movieSession, User user) {
