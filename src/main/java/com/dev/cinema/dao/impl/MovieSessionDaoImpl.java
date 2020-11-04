@@ -7,23 +7,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class MovieSessionDaoImpl implements MovieSessionDao {
     private static final Logger logger = Logger.getLogger(MovieSessionDaoImpl.class);
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public MovieSessionDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {

@@ -4,23 +4,19 @@ import com.dev.cinema.dao.CinemaHallDao;
 import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.model.CinemaHall;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class CinemaHallDaoImpl implements CinemaHallDao {
     private static final Logger logger = Logger.getLogger(CinemaHallDaoImpl.class);
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public CinemaHallDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public CinemaHall add(CinemaHall cinemaHall) {

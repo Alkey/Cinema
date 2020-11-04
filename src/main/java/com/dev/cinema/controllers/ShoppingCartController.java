@@ -5,7 +5,7 @@ import com.dev.cinema.model.dto.ShoppingCartResponseDto;
 import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,22 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/shopping-carts")
+@RequiredArgsConstructor
 public class ShoppingCartController {
     private final ShoppingCartService cartService;
     private final UserService userService;
     private final MovieSessionService movieSessionService;
     private final ShoppingCartMapper mapper;
-
-    @Autowired
-    public ShoppingCartController(ShoppingCartService service,
-                                  UserService userService,
-                                  MovieSessionService movieSessionService,
-                                  ShoppingCartMapper mapper) {
-        this.cartService = service;
-        this.userService = userService;
-        this.movieSessionService = movieSessionService;
-        this.mapper = mapper;
-    }
 
     @GetMapping("/by-user")
     public ShoppingCartResponseDto getByUser(Authentication auth) {

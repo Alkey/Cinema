@@ -6,19 +6,14 @@ import com.dev.cinema.model.dto.MovieSessionResponseDto;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import java.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class MovieSessionMapper {
     private final MovieService movieService;
     private final CinemaHallService cinemaHallService;
-
-    @Autowired
-    public MovieSessionMapper(MovieService movieService, CinemaHallService cinemaHallService) {
-        this.movieService = movieService;
-        this.cinemaHallService = cinemaHallService;
-    }
 
     public MovieSessionResponseDto getResponseDtoFromMovieSession(MovieSession movieSession) {
         MovieSessionResponseDto dto = new MovieSessionResponseDto();

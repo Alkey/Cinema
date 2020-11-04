@@ -3,17 +3,13 @@ package com.dev.cinema.mapper;
 import com.dev.cinema.model.Order;
 import com.dev.cinema.model.dto.OrderResponseDto;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class OrderMapper {
     private final TicketMapper mapper;
-
-    @Autowired
-    public OrderMapper(TicketMapper mapper) {
-        this.mapper = mapper;
-    }
 
     public OrderResponseDto getResponseDtoFromOrder(Order order) {
         OrderResponseDto dto = new OrderResponseDto();
